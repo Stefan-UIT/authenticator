@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2EE565692C6B16AD00A3B69B /* TabBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EE565682C6B16AC00A3B69B /* TabBarView.swift */; };
+		2EE5656C2C6B172900A3B69B /* TabBarSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EE5656B2C6B172900A3B69B /* TabBarSettings.swift */; };
+		2EE5656E2C6B175700A3B69B /* TabBarItemE.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EE5656D2C6B175700A3B69B /* TabBarItemE.swift */; };
+		2EE565712C6B3F5900A3B69B /* TabBarModule in Frameworks */ = {isa = PBXBuildFile; productRef = 2EE565702C6B3F5900A3B69B /* TabBarModule */; };
 		37AD0310266C8A920086DD10 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37AD030F266C8A920086DD10 /* AppDelegate.swift */; };
 		37AD0312266C8A920086DD10 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37AD0311266C8A920086DD10 /* SceneDelegate.swift */; };
 		37AD0314266C8A920086DD10 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37AD0313266C8A920086DD10 /* ContentView.swift */; };
@@ -58,6 +62,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		2EE565682C6B16AC00A3B69B /* TabBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarView.swift; sourceTree = "<group>"; };
+		2EE5656B2C6B172900A3B69B /* TabBarSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarSettings.swift; sourceTree = "<group>"; };
+		2EE5656D2C6B175700A3B69B /* TabBarItemE.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarItemE.swift; sourceTree = "<group>"; };
 		37AD030C266C8A920086DD10 /* Authenticator.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Authenticator.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		37AD030F266C8A920086DD10 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		37AD0311266C8A920086DD10 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -111,6 +118,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2EE565712C6B3F5900A3B69B /* TabBarModule in Frameworks */,
 				37AD037A266C90610086DD10 /* SwiftOTP in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -132,6 +140,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2EE5656A2C6B16D500A3B69B /* TabBar */ = {
+			isa = PBXGroup;
+			children = (
+				2EE565682C6B16AC00A3B69B /* TabBarView.swift */,
+				2EE5656B2C6B172900A3B69B /* TabBarSettings.swift */,
+				2EE5656D2C6B175700A3B69B /* TabBarItemE.swift */,
+			);
+			path = TabBar;
+			sourceTree = "<group>";
+		};
 		37AD0303266C8A920086DD10 = {
 			isa = PBXGroup;
 			children = (
@@ -157,6 +175,7 @@
 		37AD030E266C8A920086DD10 /* Authenticator */ = {
 			isa = PBXGroup;
 			children = (
+				2EE5656A2C6B16D500A3B69B /* TabBar */,
 				37AD030F266C8A920086DD10 /* AppDelegate.swift */,
 				37AD0311266C8A920086DD10 /* SceneDelegate.swift */,
 				37AD0313266C8A920086DD10 /* ContentView.swift */,
@@ -291,6 +310,7 @@
 			name = Authenticator;
 			packageProductDependencies = (
 				37AD0379266C90610086DD10 /* SwiftOTP */,
+				2EE565702C6B3F5900A3B69B /* TabBarModule */,
 			);
 			productName = Authenticator;
 			productReference = 37AD030C266C8A920086DD10 /* Authenticator.app */;
@@ -375,6 +395,7 @@
 			mainGroup = 37AD0303266C8A920086DD10;
 			packageReferences = (
 				37AD0378266C90610086DD10 /* XCRemoteSwiftPackageReference "SwiftOTP" */,
+				2EE5656F2C6B3F5900A3B69B /* XCRemoteSwiftPackageReference "swiftui-tab-bar" */,
 			);
 			productRefGroup = 37AD030D266C8A920086DD10 /* Products */;
 			projectDirPath = "";
@@ -440,9 +461,12 @@
 				37AD0375266C8CCA0086DD10 /* StringExtensions.swift in Sources */,
 				37AD036D266C8CCA0086DD10 /* ExportView.swift in Sources */,
 				37AD0372266C8CCA0086DD10 /* PhotoPicker.swift in Sources */,
+				2EE565692C6B16AD00A3B69B /* TabBarView.swift in Sources */,
 				37AD0365266C8CCA0086DD10 /* ActivityView.swift in Sources */,
 				37AD0374266C8CCA0086DD10 /* URLExtensions.swift in Sources */,
 				37AD0367266C8CCA0086DD10 /* OTPGenerator.swift in Sources */,
+				2EE5656C2C6B172900A3B69B /* TabBarSettings.swift in Sources */,
+				2EE5656E2C6B175700A3B69B /* TabBarItemE.swift in Sources */,
 				37AD036B266C8CCA0086DD10 /* CodeCardView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -642,7 +666,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 29;
 				DEVELOPMENT_ASSET_PATHS = "\"Authenticator/Preview Content\"";
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = AZ7KZLSX9B;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = Authenticator/Info.plist;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
@@ -652,7 +676,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.3.0;
-				PRODUCT_BUNDLE_IDENTIFIER = io.ososo.Authenticator;
+				PRODUCT_BUNDLE_IDENTIFIER = com.diag.diagpro.dev;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				"PROVISIONING_PROFILE_SPECIFIER[sdk=macosx*]" = "";
@@ -676,7 +700,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 29;
 				DEVELOPMENT_ASSET_PATHS = "\"Authenticator/Preview Content\"";
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = AZ7KZLSX9B;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = Authenticator/Info.plist;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
@@ -686,7 +710,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.3.0;
-				PRODUCT_BUNDLE_IDENTIFIER = io.ososo.Authenticator;
+				PRODUCT_BUNDLE_IDENTIFIER = com.diag.diagpro.dev;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				"PROVISIONING_PROFILE_SPECIFIER[sdk=macosx*]" = "";
@@ -821,6 +845,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		2EE5656F2C6B3F5900A3B69B /* XCRemoteSwiftPackageReference "swiftui-tab-bar" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/zijievv/swiftui-tab-bar.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.1;
+			};
+		};
 		37AD0378266C90610086DD10 /* XCRemoteSwiftPackageReference "SwiftOTP" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/lachlanbell/SwiftOTP.git";
@@ -832,6 +864,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		2EE565702C6B3F5900A3B69B /* TabBarModule */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 2EE5656F2C6B3F5900A3B69B /* XCRemoteSwiftPackageReference "swiftui-tab-bar" */;
+			productName = TabBarModule;
+		};
 		37AD0379266C90610086DD10 /* SwiftOTP */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 37AD0378266C90610086DD10 /* XCRemoteSwiftPackageReference "SwiftOTP" */;

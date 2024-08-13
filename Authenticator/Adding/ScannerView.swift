@@ -132,3 +132,4 @@ struct Scanner: View {
                 }
         }
 }
+ 

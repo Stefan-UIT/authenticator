@@ -52,13 +52,9 @@ struct ExportView: View {
                                         }
                                         .sheet(isPresented: $isTXTFileActivityPresented) {
                                                 let url = txtFile()
-                                                #if targetEnvironment(macCatalyst)
-                                                DocumentExporter(url: url)
-                                                #else
                                                 ActivityView(activityItems: [url]) {
                                                         isTXTFileActivityPresented = false
                                                 }
-                                                #endif
                                         }
                                 }
                                 Section {
@@ -73,13 +69,9 @@ struct ExportView: View {
                                         }
                                         .sheet(isPresented: $isZIPFileActivityPresented) {
                                                 let url: URL = zipFile()
-                                                #if targetEnvironment(macCatalyst)
-                                                DocumentExporter(url: url)
-                                                #else
                                                 ActivityView(activityItems: [url]) {
                                                         isZIPFileActivityPresented = false
                                                 }
-                                                #endif
                                         }
                                 }
                         }

@@ -38,9 +38,6 @@ private struct VersionLabel: View {
                         Text("Version")
                         Spacer()
                         Text(verbatim: version)
-                                #if targetEnvironment(macCatalyst)
-                                .textSelection(.enabled)
-                                #endif
                 }
                 .padding(.vertical, 8)
                 .contextMenu {
@@ -77,9 +74,6 @@ private struct LinkCardView: View {
                                 .minimumScaleFactor(0.5)
                                 .font(.footnote.monospaced())
                                 .padding(.bottom, 4)
-                                #if targetEnvironment(macCatalyst)
-                                .textSelection(.enabled)
-                                #endif
                 }
                 .padding(.vertical, 4)
                 .contextMenu {

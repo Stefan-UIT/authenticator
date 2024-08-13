@@ -2,30 +2,44 @@ import SwiftUI
 import CoreData
 
 struct ContentView: View {
-
         @Environment(\.managedObjectContext) private var viewContext
-
         @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \TokenData.indexNumber, ascending: true)], animation: .default)
         private var fetchedTokens: FetchedResults<TokenData>
-
+        
         private let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
         @State private var timeRemaining: Int = 30 - (Int(Date().timeIntervalSince1970) % 30)
         @State private var codes: [String] = Array(repeating: String.zeros, count: 50)
         @State private var animationTrigger: Bool = false
-
+        
         @State private var isSheetPresented: Bool = false
         @State private var isFileImporterPresented: Bool = false
-
+        
         @State private var editMode: EditMode = .inactive
         @State private var selectedTokens = Set<TokenData>()
         @State private var indexSetOnDelete: IndexSet = IndexSet()
         @State private var isDeletionAlertPresented: Bool = false
-
+        @State private var searchedText: String = ""
+        // search query
+        var query: Binding<String> {
+                Binding {
+                        searchedText
+                } set: { newValue in
+                        searchedText = newValue
+                        // check contains with all lowercase
+                        if newValue.isEmpty {
+                                fetchedTokens.nsPredicate = nil
+                        } else {
+                                let predicate = NSPredicate(format: "displayAccountName CONTAINS[c] %@ OR displayIssuer CONTAINS[c] %@", newValue, newValue)
+                                fetchedTokens.nsPredicate = predicate
+                        }
+                }
+            }
+        
         init() {
                 UITableView.appearance().sectionFooterHeight = 0
                 UITextField.appearance().clearButtonMode = .always
         }
-
+        
         var body: some View {
                 NavigationView {
                         List(selection: $selectedTokens) {
@@ -64,9 +78,10 @@ struct ContentView: View {
                                                         }
                                         }
                                 }
-                                .onMove(perform: move(from:to:))
+//                                .onMove(perform: move(from:to:))
                                 .onDelete(perform: deleteItems)
                         }
+                        .searchable(text: query)
                         .animation(.default, value: animationTrigger)
                         .onReceive(NotificationCenter.default.publisher(for: UIApplication.didBecomeActiveNotification)) { _ in
                                 generateCodes()
@@ -96,6 +111,7 @@ struct ContentView: View {
                                 deletionAlert
                         }
                         .navigationTitle("Authenticator")
+                        .navigationBarTitleDisplayMode(.inline)
                         .toolbar {
                                 ToolbarItem(placement: .navigationBarLeading) {
                                         if editMode == .active {
@@ -147,7 +163,6 @@ struct ContentView: View {
                                                         Image(systemName: "trash")
                                                 }
                                         } else {
-                                                #if !targetEnvironment(macCatalyst)
                                                 Button(action: {
                                                         presentingSheet = .addByScanning
                                                         isSheetPresented = true
@@ -159,16 +174,13 @@ struct ContentView: View {
                                                                 .padding(.horizontal, 2)
                                                                 .contentShape(Rectangle())
                                                 }
-                                                #endif
                                                 Menu {
-                                                        #if !targetEnvironment(macCatalyst)
                                                         Button(action: {
                                                                 presentingSheet = .addByScanning
                                                                 isSheetPresented = true
                                                         }) {
                                                                 Label("Scan QR Code", systemImage: "qrcode.viewfinder")
                                                         }
-                                                        #endif
                                                         Button(action: {
                                                                 presentingSheet = .addByQRCodeImage
                                                                 isSheetPresented = true
@@ -178,11 +190,7 @@ struct ContentView: View {
                                                         Button {
                                                                 isFileImporterPresented = true
                                                         } label: {
-                                                                #if targetEnvironment(macCatalyst)
-                                                                Label("Import from Finder", systemImage: "text.below.photo")
-                                                                #else
                                                                 Label("Import from Files", systemImage: "doc.badge.plus")
-                                                                #endif
                                                         }
                                                         Button(action: {
                                                                 presentingSheet = .addByManually
@@ -225,10 +233,10 @@ struct ContentView: View {
                 }
                 .navigationViewStyle(.stack)
         }
-
-
+        
+        
         // MARK: - Modification
-
+        
         private func addItem(_ token: Token) {
                 let newTokenData = TokenData(context: viewContext)
                 newTokenData.id = token.id
@@ -245,24 +253,24 @@ struct ContentView: View {
                 }
                 generateCodes()
         }
-        private func move(from source: IndexSet, to destination: Int) {
-                var idArray: [String] = fetchedTokens.map({ $0.id ?? Token().id })
-                idArray.move(fromOffsets: source, toOffset: destination)
-                for number in 0..<fetchedTokens.count {
-                        let item = fetchedTokens[number]
-                        if let index = idArray.firstIndex(where: { $0 == item.id }) {
-                                if Int64(index) != item.indexNumber {
-                                        fetchedTokens[number].indexNumber = Int64(index)
-                                }
-                        }
-                }
-                do {
-                        try viewContext.save()
-                } catch {
-                        let nsError = error as NSError
-                        logger.debug("Unresolved error \(nsError), \(nsError.userInfo)")
-                }
-        }
+//        private func move(from source: IndexSet, to destination: Int) {
+//                var idArray: [String] = fetchedTokens.map({ $0.id ?? Token().id })
+//                idArray.move(fromOffsets: source, toOffset: destination)
+//                for number in 0..<fetchedTokens.count {
+//                        let item = fetchedTokens[number]
+//                        if let index = idArray.firstIndex(where: { $0 == item.id }) {
+//                                if Int64(index) != item.indexNumber {
+//                                        fetchedTokens[number].indexNumber = Int64(index)
+//                                }
+//                        }
+//                }
+//                do {
+//                        try viewContext.save()
+//                } catch {
+//                        let nsError = error as NSError
+//                        logger.debug("Unresolved error \(nsError), \(nsError.userInfo)")
+//                }
+//        }
         private func deleteItems(offsets: IndexSet) {
                 selectedTokens.removeAll()
                 indexSetOnDelete = offsets
@@ -300,10 +308,9 @@ struct ContentView: View {
                              primaryButton: .cancel(cancelDeletion),
                              secondaryButton: .destructive(Text("Delete"), action: performDeletion))
         }
-
-
+        
         // MARK: - Account Adding
-
+        
         private func handleScanning(result: Result<String, ScannerView.ScanError>) {
                 isSheetPresented = false
                 switch result {
@@ -331,10 +338,10 @@ struct ContentView: View {
                         }
                 }
         }
-
-
+        
+        
         // MARK: - Methods
-
+        
         private func token(of tokenData: TokenData) -> Token {
                 guard let id: String = tokenData.id,
                       let uri: String = tokenData.uri,
@@ -360,7 +367,7 @@ struct ContentView: View {
                 guard let code: String = OTPGenerator.totp(secret: token.secret, algorithm: token.algorithm, digits: token.digits, period: token.period) else { return String.zeros }
                 return code
         }
-
+        
         private func handleAccountEditing(index: Int, issuer: String, account: String) {
                 let item: TokenData = fetchedTokens[index]
                 if item.displayIssuer != issuer {
@@ -377,11 +384,11 @@ struct ContentView: View {
                 }
                 isSheetPresented = false
         }
-
+        
         private var tokensToExport: [Token] {
                 return fetchedTokens.map({ token(of: $0) })
         }
-
+        
         private func clearTemporaryDirectory() {
                 guard let urls: [URL] = try? FileManager.default.contentsOfDirectory(at: .tmpDirectoryUrl, includingPropertiesForKeys: nil) else { return }
                 _ = urls.map { try? FileManager.default.removeItem(at: $0) }
